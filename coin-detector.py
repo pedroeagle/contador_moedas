@@ -30,7 +30,7 @@ imgBin = cv.morphologyEx(imgGray, cv.MORPH_CLOSE, stt)
 stt = cv.getStructuringElement(cv.MORPH_ELLIPSE, (3,3) )
 imgBin = cv.erode(imgBin, stt, iterations=1)
 
-showit(imgBin)
+# showit(imgBin)
 
 # Convertendo imgGray para BGR para poder realizar o bitwise
 imgGray = cv.cvtColor(imgBin, cv.COLOR_GRAY2BGR)
@@ -50,6 +50,8 @@ imgColSobel = cv.morphologyEx(imgColSobel, cv.MORPH_CLOSE, stt)
 # Adicionar as bordas encontradas na imagem colorida
 imgCol = cv.add(imgCol, imgColSobel)
 
+# showit(imgCol)
+
 # Achar Contornos das moedas
 contorno, hierarquia = cv.findContours(imgBin, cv.RETR_TREE, cv.CHAIN_APPROX_SIMPLE)
 
@@ -62,8 +64,10 @@ for objeto in contorno:
     x, y, w, h = cv.boundingRect(objeto)
     
     # Desenhar o retângulo
-    # cv.rectangle(imgCol, (x,y), (x+w, y+h), (0,255,0), 15)
+    cv.rectangle(imgCol, (x,y), (x+w, y+h), (0,255,0), 15)
     
     # Mostre a moeda encontrada
     plt.imshow(imgCol[y:y+h, x:x+w, ::-1])
     plt.show()
+
+showit(imgCol[:,:,::-1])
